@@ -12,47 +12,36 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', showTex
   const sizes = {
     sm: { icon: 'w-8 h-8', text: 'text-lg', sub: 'text-[7px]' },
     md: { icon: 'w-12 h-12', text: 'text-2xl', sub: 'text-[9px]' },
-    lg: { icon: 'w-20 h-20', text: 'text-4xl', sub: 'text-[11px]' },
-    xl: { icon: 'w-32 h-32', text: 'text-6xl', sub: 'text-[14px]' },
+    lg: { icon: 'w-24 h-24', text: 'text-5xl', sub: 'text-[11px]' },
+    xl: { icon: 'w-36 h-36', text: 'text-7xl', sub: 'text-[14px]' },
   };
 
   const currentSize = sizes[size];
-  const primaryColor = light ? 'text-white' : 'text-emerald-950';
-  const secondaryColor = 'text-amber-500';
+  const primaryColor = light ? 'text-white' : 'text-emerald-50';
 
   return (
-    <div className={`flex items-center space-x-4 ${className}`}>
-      {/* The Emblem */}
-      <div className={`relative ${currentSize.icon} flex-shrink-0 group`}>
-        {/* Outer Glow */}
-        <div className="absolute inset-0 bg-amber-400/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+    <div className={`flex items-center space-x-5 ${className}`}>
+      {/* The Sacred Emblem */}
+      <div className={`relative ${currentSize.icon} flex-shrink-0 group perspective-1000`}>
+        {/* Divine Aura Glow */}
+        <div className="absolute inset-0 bg-amber-500/30 blur-[40px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-1000 animate-pulse"></div>
         
-        {/* Main Background Container */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-800 to-emerald-950 rounded-2xl shadow-xl transform transition-transform duration-500 group-hover:rotate-[15deg] group-hover:scale-110 overflow-hidden ring-2 ring-amber-500/20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.1),transparent)]"></div>
+        {/* Main Geometric Container */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-emerald-950 rounded-2xl shadow-2xl transform transition-all duration-700 group-hover:rotate-[22.5deg] group-hover:scale-110 overflow-hidden ring-1 ring-amber-500/30 flex items-center justify-center">
+          {/* Subtle Rotating Radial Background */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.15),transparent)] animate-[spin_10s_linear_infinite]"></div>
           
-          {/* SVG Symbol */}
-          <svg viewBox="0 0 100 100" className="w-full h-full p-2 text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
-            {/* The Crescent */}
+          <svg viewBox="0 0 100 100" className="w-[80%] h-[80%] text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]">
+            {/* The 8-pointed Khatam Star */}
             <path 
               fill="currentColor" 
-              d="M75,50 c0,13.8 -11.2,25 -25,25 s-25-11.2 -25-25 s11.2-25,25-25 c4.2,0,8.1,1,11.6,2.8 c-8.5,2.5-14.6,10.4-14.6,19.7 c0,11.3,9.2,20.5,20.5,20.5 c3.7,0,7.1-1,10.1-2.7 C72.5,43.3,75,46.4,75,50z" 
+              d="M50 0L61 39H100L69 61L81 100L50 78L19 100L31 61L0 39H39L50 0Z" 
+              className="opacity-40 group-hover:opacity-100 transition-opacity"
             />
-            {/* The 8-pointed Star (Mashrabiya Star) */}
+            {/* The Spiritual Crescent */}
             <path 
               fill="white" 
-              fillOpacity="0.8"
-              d="M50 20l3.5 13.5h13.5l-10.5 8 4 13.5-10.5-8.5-10.5 8.5 4-13.5-10.5-8h13.5z"
-              className="animate-pulse"
-              style={{ animationDuration: '4s' }}
-            />
-            {/* The Provision Bowl Curve */}
-            <path 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              fill="none" 
-              d="M30,75 q20,10 40,0" 
-              strokeLinecap="round"
+              d="M75,50 c0,13.8 -11.2,25 -25,25 s-25-11.2 -25-25 s11.2-25,25-25 c4.2,0,8.1,1,11.6,2.8 c-8.5,2.5-14.6,10.4-14.6,19.7 c0,11.3,9.2,20.5,20.5,20.5 c3.7,0,7.1-1,10.1-2.7 C72.5,43.3,75,46.4,75,50z" 
             />
           </svg>
         </div>
@@ -60,13 +49,13 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', showTex
 
       {showText && (
         <div className="flex flex-col">
-          <span className={`serif font-bold tracking-tight leading-none ${currentSize.text} ${primaryColor}`}>
+          <span className={`serif font-bold tracking-tight leading-none ${currentSize.text} ${primaryColor} text-glow-gold`}>
             Barakat <span className="italic text-amber-500">Meal</span>
           </span>
-          <div className="flex items-center space-x-2 mt-1.5 opacity-80">
-            <div className="h-[1px] w-4 bg-amber-500/50"></div>
-            <span className={`font-black uppercase tracking-[0.4em] ${currentSize.sub} ${light ? 'text-amber-200' : 'text-amber-600'}`}>
-              Community Sadaqah
+          <div className="flex items-center space-x-2 mt-2 opacity-60">
+            <div className="h-[1px] w-6 bg-amber-500"></div>
+            <span className={`font-black uppercase tracking-[0.6em] ${currentSize.sub} text-amber-200`}>
+              Community Food Support
             </span>
           </div>
         </div>

@@ -45,102 +45,102 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLogin, onCancel }) => {
     <div className="max-w-md mx-auto py-12 px-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
       <div className="text-center mb-12 flex flex-col items-center">
         <Logo size="lg" className="mb-8" showText={false} />
-        <h2 className="serif text-5xl text-slate-900 mb-3 tracking-tight">Join the Circle</h2>
-        <p className="text-slate-500 font-medium">A sanctuary for giving and receiving.</p>
+        <h2 className="serif text-5xl text-white mb-3 tracking-tight">Join Barakat</h2>
+        <p className="text-slate-500 font-medium">Connecting surplus food with local need.</p>
       </div>
 
-      <div className="bg-white p-10 rounded-[3rem] border border-amber-100 shadow-premium relative overflow-hidden">
+      <div className="celestial-glass p-10 rounded-[3rem] border border-white/5 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#064e3b] via-amber-400 to-[#064e3b]"></div>
         
         {/* Role Selection */}
-        <div className="flex p-1.5 bg-emerald-50/50 rounded-2xl mb-10 border border-emerald-50">
+        <div className="flex p-1.5 bg-white/5 rounded-2xl mb-10 border border-white/5">
           <button
             type="button"
             onClick={() => setRole('recipient')}
             className={`flex-1 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
-              role === 'recipient' ? 'bg-[#064e3b] text-[#fbbf24] shadow-lg' : 'text-emerald-900/40'
+              role === 'recipient' ? 'bg-amber-500 text-emerald-950 shadow-lg' : 'text-slate-400'
             }`}
           >
-            Recipient
+            I need help
           </button>
           <button
             type="button"
             onClick={() => setRole('donor')}
             className={`flex-1 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
-              role === 'donor' ? 'bg-[#064e3b] text-[#fbbf24] shadow-lg' : 'text-emerald-900/40'
+              role === 'donor' ? 'bg-amber-500 text-emerald-950 shadow-lg' : 'text-slate-400'
             }`}
           >
-            Abundance Provider
+            I want to donate
           </button>
         </div>
 
         {/* Tab Selection */}
-        <div className="flex justify-center space-x-12 mb-10 border-b border-amber-50">
+        <div className="flex justify-center space-x-12 mb-10 border-b border-white/5">
           {['login', 'signup'].map((m) => (
             <button 
               key={m}
               type="button"
               onClick={() => setMode(m as any)}
-              className={`pb-5 text-[11px] font-black uppercase tracking-[0.3em] transition-all border-b-2 ${mode === m ? 'text-[#064e3b] border-[#064e3b]' : 'text-slate-300 border-transparent hover:text-amber-500'}`}
+              className={`pb-5 text-[11px] font-black uppercase tracking-[0.3em] transition-all border-b-2 ${mode === m ? 'text-amber-500 border-amber-500' : 'text-slate-500 border-transparent hover:text-white'}`}
             >
-              {m === 'login' ? 'Enter' : 'Register'}
+              {m === 'login' ? 'Sign In' : 'Sign Up'}
             </button>
           ))}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Account Email</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2">Email Address</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-8 py-5 bg-[#fdfcf9] border border-transparent rounded-[1.5rem] focus:bg-white focus:border-emerald-200 focus:ring-4 focus:ring-emerald-500/5 font-bold text-slate-900 placeholder:text-slate-300 transition-all outline-none"
+              className="w-full px-8 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] focus:bg-white/10 focus:border-amber-500/20 focus:ring-4 focus:ring-amber-500/5 font-bold text-white placeholder:text-slate-600 transition-all outline-none"
               placeholder="name@example.com"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Secure Key</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2">Password</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-8 py-5 bg-[#fdfcf9] border border-transparent rounded-[1.5rem] focus:bg-white focus:border-emerald-200 focus:ring-4 focus:ring-emerald-500/5 font-bold text-slate-900 placeholder:text-slate-300 transition-all outline-none"
+              className="w-full px-8 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] focus:bg-white/10 focus:border-amber-500/20 focus:ring-4 focus:ring-amber-500/5 font-bold text-white placeholder:text-slate-600 transition-all outline-none"
               placeholder="••••••••"
             />
           </div>
 
-          <Button type="submit" fullWidth size="lg" className="rounded-[1.5rem] h-20 mt-6 shadow-2xl shadow-emerald-900/10 border-b-4 border-emerald-900">
-            {mode === 'login' ? 'Welcome Back' : 'Join the Community'}
+          <Button type="submit" fullWidth size="lg" className="rounded-[1.5rem] h-20 mt-6 shadow-2xl">
+            {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </Button>
 
           <div className="relative py-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-amber-50"></div>
+              <div className="w-full border-t border-white/5"></div>
             </div>
             <div className="relative flex justify-center text-[9px] uppercase font-black tracking-[0.4em]">
-              <span className="px-4 bg-white text-amber-200">Social Sign-in</span>
+              <span className="px-4 bg-[#011a14] text-slate-600">OR CONTINUE WITH</span>
             </div>
           </div>
 
           <button
             type="button"
             onClick={() => onLogin(role, 'google-user@gmail.com')}
-            className="w-full flex items-center justify-center px-8 py-5 border-2 border-amber-50 rounded-[1.5rem] font-black text-[11px] uppercase tracking-widest text-slate-700 hover:bg-amber-50 transition-all active:scale-[0.98] shadow-sm"
+            className="w-full flex items-center justify-center px-8 py-5 border-2 border-white/5 rounded-[1.5rem] font-black text-[11px] uppercase tracking-widest text-white hover:bg-white/5 transition-all active:scale-[0.98] shadow-sm"
           >
             <GoogleIcon />
-            Continue with Google
+            Google
           </button>
         </form>
       </div>
 
       <button
         onClick={onCancel}
-        className="w-full mt-10 text-[10px] font-black uppercase tracking-[0.4em] text-slate-300 hover:text-[#064e3b] transition-colors"
+        className="w-full mt-10 text-[10px] font-black uppercase tracking-[0.4em] text-slate-600 hover:text-white transition-colors"
       >
-        Return Home
+        Go Back
       </button>
     </div>
   );

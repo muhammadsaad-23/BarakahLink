@@ -11,7 +11,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
     {
       id: '1',
       from: 'System',
-      content: 'Welcome to Barakat Meal. Sharing blessings in Kitchener-Waterloo.\n\nText "FOOD" or your postal code to see what is available nearby.',
+      content: 'Welcome to Barakat Meal. Providing community food support in Kitchener-Waterloo.\n\nText "FOOD" or your postal code to see what is available nearby.',
       timestamp: new Date()
     }
   ]);
@@ -48,12 +48,12 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
 
       if (cmd.includes('FOOD') || cmd.length >= 3) {
         if (availableDrops.length > 0) {
-          reply = `Alhamdulillah! We found ${availableDrops.length} active blessings in your area right now.\n\nTo see exact locations and secure your anonymous pickup code, please use this link:\n\nhttps://barakat-meal.app/map?ref=sms`;
+          reply = `Found it! We have ${availableDrops.length} food listings near you right now.\n\nTo view exact addresses and get your pickup code, visit this link:\n\nhttps://barakat-meal.app/map?ref=sms`;
         } else {
-          reply = `Peace be upon you. There are currently no active offerings in your immediate area. \n\nWe will notify you the moment a new blessing is registered.`;
+          reply = `No active food listings were found in your area right now. \n\nWe will notify you if a new donation becomes available nearby.`;
         }
       } else {
-        reply = 'Command not recognized. Text "FOOD" to check for nearby abundance.';
+        reply = 'Unknown command. Text "FOOD" to see what is available.';
       }
 
       setMessages(prev => [...prev, {
@@ -83,7 +83,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
             <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest">Barakat Support</h4>
             <div className="flex items-center">
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Verified Gateway</span>
+              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Official Gateway</span>
             </div>
           </div>
         </div>
@@ -128,7 +128,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Text Message"
+              placeholder="Type your message"
               className="flex-1 bg-transparent px-5 py-3 text-[14px] focus:outline-none placeholder:text-slate-300 font-semibold text-slate-900"
             />
             <button 
