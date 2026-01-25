@@ -11,7 +11,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
     {
       id: '1',
       from: 'System',
-      content: 'Welcome to Barakat Meal. Providing community food support in Kitchener-Waterloo.\n\nText "FOOD" or your postal code to see what is available nearby.',
+      content: 'Welcome to BarakahLink. Providing community food support in Kitchener-Waterloo.\n\nText "FOOD" or your postal code to see what is available nearby.',
       timestamp: new Date()
     }
   ]);
@@ -48,7 +48,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
 
       if (cmd.includes('FOOD') || cmd.length >= 3) {
         if (availableDrops.length > 0) {
-          reply = `Found it! We have ${availableDrops.length} food listings near you right now.\n\nTo view exact addresses and get your pickup code, visit this link:\n\nhttps://barakat-meal.app/map?ref=sms`;
+          reply = `Found it! We have ${availableDrops.length} food listings near you right now.\n\nTo view exact addresses and get your pickup code, visit this link:\n\nhttps://barakahlink.app/map?ref=sms`;
         } else {
           reply = `No active food listings were found in your area right now. \n\nWe will notify you if a new donation becomes available nearby.`;
         }
@@ -80,7 +80,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
             <span className="serif text-xl">B</span>
           </div>
           <div>
-            <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest">Barakat Support</h4>
+            <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest">BarakahLink Support</h4>
             <div className="flex items-center">
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
               <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Official Gateway</span>

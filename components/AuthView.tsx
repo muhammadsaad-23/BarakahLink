@@ -45,7 +45,7 @@ export const AuthView: React.FC<AuthViewProps> = ({ onLogin, onCancel }) => {
     <div className="max-w-md mx-auto py-12 px-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
       <div className="text-center mb-12 flex flex-col items-center">
         <Logo size="lg" className="mb-8" showText={false} />
-        <h2 className="serif text-5xl text-white mb-3 tracking-tight">Join Barakat</h2>
+        <h2 className="serif text-5xl text-white mb-3 tracking-tight">Join BarakahLink</h2>
         <p className="text-slate-500 font-medium">Connecting surplus food with local need.</p>
       </div>
 

@@ -50,7 +50,7 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', showTex
       {showText && (
         <div className="flex flex-col">
           <span className={`serif font-bold tracking-tight leading-none ${currentSize.text} ${primaryColor} text-glow-gold`}>
-            Barakat <span className="italic text-amber-500">Meal</span>
+            Barakah <span className="italic text-amber-500">Link</span>
           </span>
           <div className="flex items-center space-x-2 mt-2 opacity-60">
             <div className="h-[1px] w-6 bg-amber-500"></div>

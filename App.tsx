@@ -81,7 +81,6 @@ const App: React.FC = () => {
           <span className="text-[11px] font-black text-amber-200 uppercase tracking-[0.5em]">Active Support in Kitchener-Waterloo</span>
         </div>
         
-        {/* Font size reduced as requested: from 6/10/12 to 5/8/10 */}
         <h1 className="fade-up serif text-[5rem] md:text-[8rem] lg:text-[10rem] text-white mb-12 leading-[0.85] tracking-tighter select-none" style={{ animationDelay: '0.2s' }}>
           Share the <span className="italic text-amber-500 block text-glow-gold">Meal.</span>
         </h1>
@@ -263,7 +262,7 @@ const App: React.FC = () => {
                           </div>
                           
                           <div className="px-12 py-6 bg-white/5 rounded-[3rem] border border-amber-500/30">
-                            <span className="text-2xl font-black text-amber-500 uppercase tracking-[0.6em]">CODE: BRKT-{Math.floor(Math.random()*9000)+1000}</span>
+                            <span className="text-2xl font-black text-amber-500 uppercase tracking-[0.6em]">CODE: BKL-{Math.floor(Math.random()*9000)+1000}</span>
                           </div>
 
                           <div className="text-left space-y-8">
@@ -306,7 +305,6 @@ const App: React.FC = () => {
         {view === 'sms' && (
           <div className="max-w-4xl mx-auto py-20 animate-in fade-in slide-in-from-bottom-12 duration-1000">
             <header className="text-center mb-40">
-               {/* Font size reduced as requested: from 6/8 to 5/7 */}
                <h2 className="serif text-5xl md:text-7xl text-white mb-12 tracking-tighter text-glow-gold">SMS Access.</h2>
                <p className="text-xl md:text-2xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed italic opacity-80">"Support is just a text message away, even without an internet connection."</p>
             </header>
