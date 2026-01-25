@@ -1,7 +1,7 @@
 
-import React, { useState, useMemo } from 'react';
-import { UserRole, FoodDrop } from './types';
-import { INITIAL_DROPS, DIETARY_TAGS, CANADIAN_CITIES } from './constants';
+import React, { useState, useMemo, useEffect } from 'react';
+import { UserRole, FoodDrop } from './backend/types';
+import { DIETARY_TAGS, CANADIAN_CITIES } from './constants';
 import { Navbar } from './components/Navbar';
 import { MapView } from './components/MapView';
 import { FoodCard } from './components/FoodCard';
@@ -10,12 +10,13 @@ import { SMSView } from './components/SMSView';
 import { Button } from './components/Button';
 import { AuthView } from './components/AuthView';
 import { Logo } from './components/Logo';
+import { BarakatBackend } from './backend/server';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole>('guest');
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [user, setUser] = useState<{ email: string; name: string } | null>(null);
   const [view, setView] = useState<string>('landing');
-  const [drops, setDrops] = useState<FoodDrop[]>(INITIAL_DROPS);
+  const [drops, setDrops] = useState<FoodDrop[]>([]);
   const [selectedDrop, setSelectedDrop] = useState<FoodDrop | null>(null);
   const [filter, setFilter] = useState<string>('All');
   const [selectedCity, setSelectedCity] = useState<string>('All');
@@ -23,6 +24,11 @@ const App: React.FC = () => {
   const [isReserving, setIsReserving] = useState(false);
   const [reserveName, setReserveName] = useState('');
   const [reservePhone, setReservePhone] = useState('');
+
+  // Fetch drops from the "Backend"
+  useEffect(() => {
+    BarakatBackend.getDrops().then(setDrops);
+  }, []);
 
   const filteredDrops = useMemo(() => {
     return drops.filter(d => {
@@ -32,59 +38,58 @@ const App: React.FC = () => {
     });
   }, [drops, filter, selectedCity]);
 
-  const handleAddDrop = (partialDrop: Partial<FoodDrop>) => {
-    const newDrop: FoodDrop = {
-      id: Date.now().toString(),
-      donorId: userEmail || 'current-user',
-      donorName: userEmail?.split('@')[0] || 'Your Organization',
-      status: 'available',
-      createdAt: new Date().toISOString(),
-      ...partialDrop as any
-    };
-    setDrops(prev => [newDrop, ...prev]);
+  const handleAddDrop = async (partialDrop: Partial<FoodDrop>) => {
+    try {
+      const newDrop = await BarakatBackend.createDrop(
+        partialDrop, 
+        user?.email || 'guest', 
+        user?.name || 'Community Donor'
+      );
+      setDrops(prev => [newDrop, ...prev]);
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Failed to create drop");
+    }
   };
 
-  const handleLogin = (chosenRole: UserRole, email: string) => {
+  const handleLogin = async (chosenRole: UserRole, email: string) => {
+    const userData = await BarakatBackend.login(email);
     setRole(chosenRole);
-    setUserEmail(email);
+    setUser(userData);
     setView(chosenRole === 'donor' ? 'donor-dashboard' : 'map');
   };
 
-  const finalizeReservation = (e: React.FormEvent) => {
+  const finalizeReservation = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDrop) return;
-    setDrops(prev => prev.map(d => 
-      d.id === selectedDrop.id ? { 
-        ...d, status: 'claimed', reservedBy: { name: reserveName, phone: reservePhone } 
-      } : d
-    ));
-    setSelectedDrop(prev => prev ? { 
-      ...prev, status: 'claimed', reservedBy: { name: reserveName, phone: reservePhone } 
-    } : null);
-    setIsReserving(false);
-    setReserveName('');
-    setReservePhone('');
+    try {
+      const updatedDrop = await BarakatBackend.reserveDrop(selectedDrop.id, reserveName, reservePhone);
+      setDrops(prev => prev.map(d => d.id === updatedDrop.id ? updatedDrop : d));
+      setSelectedDrop(updatedDrop);
+      setIsReserving(false);
+      setReserveName('');
+      setReservePhone('');
+    } catch (e) {
+      alert("Reservation failed. It might have been claimed already.");
+    }
   };
 
   const renderHero = () => (
     <div className="relative max-w-7xl mx-auto pt-40 pb-72 px-6">
       <div className="flex flex-col items-center text-center">
-        {/* Animated Status Badge */}
         <div className="fade-up inline-flex items-center space-x-3 px-10 py-5 rounded-[2rem] glass-light border border-amber-500/20 mb-16 shadow-[0_15px_40px_-10px_rgba(251,191,36,0.1)] group hover:scale-105 transition-transform">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_20px_#fbbf24] animate-pulse"></span>
           <span className="text-[11px] font-black text-amber-200 uppercase tracking-[0.5em]">Active Support in Kitchener-Waterloo</span>
         </div>
         
-        {/* Dramatic Typography */}
-        <h1 className="fade-up serif text-[9rem] md:text-[18rem] text-white mb-12 leading-[0.7] tracking-tighter select-none" style={{ animationDelay: '0.2s' }}>
+        {/* Font size reduced as requested: from 6/10/12 to 5/8/10 */}
+        <h1 className="fade-up serif text-[5rem] md:text-[8rem] lg:text-[10rem] text-white mb-12 leading-[0.85] tracking-tighter select-none" style={{ animationDelay: '0.2s' }}>
           Share the <span className="italic text-amber-500 block text-glow-gold">Meal.</span>
         </h1>
         
-        <p className="fade-up text-xl md:text-3xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-28 px-4 opacity-80" style={{ animationDelay: '0.4s' }}>
+        <p className="fade-up text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-medium leading-relaxed mb-24 px-4 opacity-80" style={{ animationDelay: '0.4s' }}>
           Bridging the gap between local food surplus and those who need it most. Simple, private, and community-driven.
         </p>
 
-        {/* Action Sanctuary */}
         <div className="fade-up flex flex-col sm:flex-row items-center justify-center gap-12 relative z-10" style={{ animationDelay: '0.6s' }}>
           <Button size="lg" className="px-24 py-10 text-xl shadow-[0_30px_100px_-20px_rgba(251,191,36,0.4)] hover:shadow-[0_40px_120px_-25px_rgba(251,191,36,0.6)]" onClick={() => setView('auth')}>
             Find Food
@@ -95,7 +100,6 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Philosophy Section */}
       <div className="mt-80 grid grid-cols-1 md:grid-cols-3 gap-24">
         {[
           { icon: '🌙', title: 'Food AI', desc: 'Our Gemini engine automatically detects dietary needs and optimizes food delivery with precision.' },
@@ -133,11 +137,10 @@ const App: React.FC = () => {
 
         {view === 'map' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 animate-in fade-in slide-in-from-bottom-12 duration-1000">
-            {/* List and Map Side */}
             <div className="lg:col-span-8 space-y-24">
               <header className="flex flex-col md:flex-row md:items-end justify-between gap-12">
                 <div className="space-y-4">
-                  <h2 className="serif text-9xl text-white tracking-tighter text-glow-gold">Pickups</h2>
+                  <h2 className="serif text-7xl md:text-9xl text-white tracking-tighter text-glow-gold">Pickups</h2>
                   <div className="flex items-center space-x-4 bg-white/5 backdrop-blur-xl px-8 py-4 rounded-3xl border border-white/10 shadow-inner">
                     <span className="text-[11px] font-black text-slate-500 uppercase tracking-widest">Location</span>
                     <select 
@@ -150,7 +153,6 @@ const App: React.FC = () => {
                     </select>
                   </div>
                 </div>
-                
                 <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
                   {['All', ...DIETARY_TAGS.slice(0, 4)].map(tag => (
                     <button 
@@ -164,7 +166,6 @@ const App: React.FC = () => {
                 </div>
               </header>
 
-              {/* High-End Map Container */}
               <div className="h-[700px] rounded-[5rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] relative group border-[20px] border-white/5 celestial-glass">
                 <MapView drops={filteredDrops.filter(d => d.status === 'available')} onSelectDrop={setSelectedDrop} />
                 <div className="absolute inset-0 pointer-events-none ring-1 ring-white/10 rounded-[4.2rem]"></div>
@@ -177,7 +178,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Selection Sidebar */}
             <div className="lg:col-span-4">
               <div className="sticky top-48">
                 {selectedDrop ? (
@@ -298,7 +298,7 @@ const App: React.FC = () => {
           <div className="animate-in fade-in slide-in-from-bottom-12 duration-1000">
             <DonorDashboard 
               onAddDrop={handleAddDrop} 
-              myDrops={drops.filter(d => d.donorId === userEmail || d.donorId === 'current-user')} 
+              myDrops={drops.filter(d => d.donorId === user?.email || d.donorId === 'current-user')} 
             />
           </div>
         )}
@@ -306,8 +306,9 @@ const App: React.FC = () => {
         {view === 'sms' && (
           <div className="max-w-4xl mx-auto py-20 animate-in fade-in slide-in-from-bottom-12 duration-1000">
             <header className="text-center mb-40">
-               <h2 className="serif text-[10rem] text-white mb-12 tracking-tighter text-glow-gold">SMS Access.</h2>
-               <p className="text-3xl text-slate-500 font-medium max-w-3xl mx-auto leading-relaxed italic opacity-80">"Support is just a text message away, even without an internet connection."</p>
+               {/* Font size reduced as requested: from 6/8 to 5/7 */}
+               <h2 className="serif text-5xl md:text-7xl text-white mb-12 tracking-tighter text-glow-gold">SMS Access.</h2>
+               <p className="text-xl md:text-2xl text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed italic opacity-80">"Support is just a text message away, even without an internet connection."</p>
             </header>
             <SMSView drops={drops.filter(d => d.status === 'available')} />
           </div>
