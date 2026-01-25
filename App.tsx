@@ -9,6 +9,7 @@ import { DonorDashboard } from './components/DonorDashboard';
 import { SMSView } from './components/SMSView';
 import { Button } from './components/Button';
 import { AuthView } from './components/AuthView';
+import { Logo } from './components/Logo';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole>('guest');
@@ -66,35 +67,47 @@ const App: React.FC = () => {
   };
 
   const renderHero = () => (
-    <div className="max-w-6xl mx-auto py-24 px-6 text-center">
-      <div className="inline-block px-4 py-1 rounded-full bg-emerald-50 text-[#064e3b] text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-emerald-100">
-        Feed the Soul • Protect the Planet
+    <div className="relative max-w-7xl mx-auto pt-48 pb-64 px-6 text-center">
+      {/* Background Decorative Motifs */}
+      <div className="absolute top-20 left-0 w-96 h-96 opacity-[0.03] text-emerald-900 pointer-events-none -rotate-12">
+        <svg viewBox="0 0 100 100" className="w-full h-full"><path fill="currentColor" d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45Z"/></svg>
       </div>
-      <h1 className="serif text-7xl md:text-9xl text-slate-900 mb-8 leading-[0.9] tracking-tight">
-        Sharing <span className="italic text-amber-600">Blessings</span>,<br />
-        Preserving <span className="italic text-[#064e3b]">Dignity</span>.
+      <div className="absolute bottom-20 right-0 w-[500px] h-[500px] opacity-[0.03] text-amber-500 pointer-events-none rotate-12">
+        <svg viewBox="0 0 100 100" className="w-full h-full"><path fill="currentColor" d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45Z"/></svg>
+      </div>
+
+      <div className="inline-flex items-center space-x-3 px-8 py-3 rounded-full celestial-glass border border-emerald-100/30 mb-16 animate-stagger-1 shadow-xl">
+        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_15px_#10b981] animate-pulse"></span>
+        <span className="text-[12px] font-black text-emerald-900 uppercase tracking-[0.4em]">Propagating Abundance in KW</span>
+      </div>
+      
+      <h1 className="serif text-[9rem] md:text-[16rem] text-slate-950 mb-12 leading-[0.7] tracking-tighter animate-stagger-2">
+        Share the <span className="italic text-amber-600">Light.</span>
       </h1>
-      <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
-        A professional bridge between surplus and community needs. Local, anonymous, and beautifully simple.
+      
+      <p className="text-2xl md:text-4xl text-slate-500 max-w-4xl mx-auto font-medium leading-[1.3] mb-24 px-4 animate-stagger-3">
+        Where extra becomes enough. A sanctuary connecting local surplus with those who deserve it most.
       </p>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-        <Button size="lg" className="px-12 py-5 shadow-2xl" onClick={() => setView('auth')}>
-          Get Started
+
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-12 relative z-10 animate-stagger-3">
+        <Button size="lg" className="px-24 py-9 text-xl shadow-[0_30px_60px_-15px_rgba(6,78,59,0.4)]" onClick={() => setView('auth')}>
+          Enter Sanctuary
         </Button>
-        <Button variant="outline" size="lg" className="px-12 py-5" onClick={() => setView('sms')}>
-          Access Offline via SMS
+        <Button variant="outline" size="lg" className="px-20 py-9 celestial-glass text-emerald-900 text-lg hover:shadow-2xl" onClick={() => setView('sms')}>
+          Silent Access (SMS)
         </Button>
       </div>
 
-      <div className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 text-left">
+      <div className="mt-72 grid grid-cols-1 md:grid-cols-3 gap-32 text-left border-t border-emerald-900/10 pt-32">
         {[
-          { title: 'Live Timeline', desc: 'Track pickup windows in real-time to ensure food safety and freshness.' },
-          { title: 'Privacy First', desc: 'Secure pickup codes mean no personal ID is required for community support.' },
-          { title: 'AI Optimized', desc: 'Gemini AI automatically categorizes and summarizes drops for fast discovery.' }
+          { icon: '🌙', title: 'Sacred Flow', desc: 'Transforming food waste into "Barakah" (Divine Blessing) through hyper-local logistics.' },
+          { icon: '🛡️', title: 'Veiled Dignity', desc: 'Zero ID required. Anonymous pickup codes ensure the heart remains light and the hands stay hidden.' },
+          { icon: '✨', title: 'Ethical Vision', desc: 'Our Gemini AI ensures Halal compliance and dietary safety with clinical precision.' }
         ].map(item => (
-          <div key={item.title} className="group">
-            <h3 className="serif text-3xl text-slate-900 mb-3 group-hover:text-[#064e3b] transition-colors">{item.title}</h3>
-            <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+          <div key={item.title} className="group relative">
+            <span className="text-6xl mb-8 block transition-transform duration-700 group-hover:scale-125 group-hover:rotate-12">{item.icon}</span>
+            <h3 className="serif text-5xl text-slate-900 mb-6 group-hover:text-emerald-800 transition-colors">{item.title}</h3>
+            <p className="text-slate-500 font-medium leading-relaxed text-xl group-hover:text-slate-700 transition-colors">{item.desc}</p>
           </div>
         ))}
       </div>
@@ -102,7 +115,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#fdfcf9]">
+    <div className="min-h-screen">
       <Navbar 
         role={role} 
         onRoleChange={setRole} 
@@ -110,7 +123,7 @@ const App: React.FC = () => {
         currentView={view}
       />
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-6 py-12 pt-32 md:pt-40">
         {view === 'landing' && renderHero()}
         
         {view === 'auth' && (
@@ -118,29 +131,29 @@ const App: React.FC = () => {
         )}
 
         {view === 'map' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-8 space-y-12">
-              <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                  <h2 className="serif text-5xl text-slate-900 mb-2">Offerings</h2>
-                  <div className="flex items-center space-x-2 text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
-                    <span>Browsing</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="lg:col-span-8 space-y-24">
+              <header className="flex flex-col md:flex-row md:items-end justify-between gap-12">
+                <div className="space-y-4">
+                  <h2 className="serif text-9xl text-slate-950 tracking-tighter">Harvest</h2>
+                  <div className="flex items-center space-x-4 celestial-glass px-8 py-3.5 rounded-full border border-emerald-100/50 shadow-lg">
+                    <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em]">Region:</span>
                     <select 
                       value={selectedCity} 
                       onChange={(e) => setSelectedCity(e.target.value)}
-                      className="bg-transparent text-[#064e3b] font-black focus:outline-none cursor-pointer"
+                      className="bg-transparent text-emerald-900 font-black focus:outline-none cursor-pointer text-sm"
                     >
-                      <option value="All">All Regions</option>
+                      <option value="All">Worldwide (All Cities)</option>
                       {CANADIAN_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                 </div>
-                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                <div className="flex gap-4 overflow-x-auto no-scrollbar pb-3">
                   {['All', ...DIETARY_TAGS.slice(0, 4)].map(tag => (
                     <button 
                       key={tag}
                       onClick={() => setFilter(tag)}
-                      className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filter === tag ? 'bg-[#064e3b] text-white shadow-lg' : 'bg-white border border-slate-100 text-slate-500 hover:bg-slate-50'}`}
+                      className={`px-12 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-700 ${filter === tag ? 'bg-emerald-900 text-amber-400 shadow-[0_20px_40px_-10px_rgba(6,78,59,0.4)] translate-y-[-4px]' : 'celestial-glass text-slate-400 hover:text-emerald-900'}`}
                     >
                       {tag}
                     </button>
@@ -148,11 +161,12 @@ const App: React.FC = () => {
                 </div>
               </header>
 
-              <div className="h-[450px] rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-premium">
+              <div className="h-[650px] rounded-[5rem] overflow-hidden premium-shadow relative group border-[12px] border-white/60 celestial-glass">
                 <MapView drops={filteredDrops.filter(d => d.status === 'available')} onSelectDrop={setSelectedDrop} />
+                <div className="absolute inset-0 pointer-events-none ring-1 ring-emerald-900/10 rounded-[4.2rem]"></div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                 {filteredDrops.map(drop => (
                   <FoodCard key={drop.id} drop={drop} onClick={setSelectedDrop} />
                 ))}
@@ -160,43 +174,43 @@ const App: React.FC = () => {
             </div>
 
             <div className="lg:col-span-4">
-              <div className="sticky top-32">
+              <div className="sticky top-40">
                 {selectedDrop ? (
-                  <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-premium animate-in slide-in-from-bottom-4 duration-500">
-                    <div className="flex justify-between items-start mb-8">
-                      <div>
-                        <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest mb-2 block">{selectedDrop.city}</span>
-                        <h3 className="serif text-4xl text-slate-900 leading-none">{selectedDrop.title}</h3>
+                  <div className="celestial-glass p-14 rounded-[5rem] border-2 border-white premium-shadow animate-in slide-in-from-right-12 duration-700">
+                    <div className="flex justify-between items-start mb-16">
+                      <div className="space-y-4">
+                        <span className="text-[12px] font-black text-amber-600 uppercase tracking-[0.5em] mb-4 block drop-shadow-sm">{selectedDrop.city}</span>
+                        <h3 className="serif text-7xl text-slate-950 leading-[0.85] tracking-tighter">{selectedDrop.title}</h3>
                       </div>
-                      <button onClick={() => {setSelectedDrop(null); setIsReserving(false);}} className="text-slate-300 hover:text-slate-900 transition-colors">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                      <button onClick={() => {setSelectedDrop(null); setIsReserving(false);}} className="w-14 h-14 flex items-center justify-center rounded-full bg-white hover:bg-rose-50 text-slate-300 hover:text-rose-600 transition-all shadow-md group">
+                        <svg className="w-7 h-7 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>
                       </button>
                     </div>
                     
-                    <div className="space-y-8">
+                    <div className="space-y-16">
                       {selectedDrop.status === 'available' && !isReserving && (
                         <>
-                          <div className="p-6 bg-[#fdfcf9] rounded-2xl border border-slate-100 italic text-slate-700 text-sm leading-relaxed">
+                          <div className="p-10 bg-white/50 rounded-[3rem] border border-emerald-900/5 italic text-slate-700 text-xl leading-relaxed shadow-inner font-medium">
                             "{selectedDrop.aiSummary}"
                           </div>
-                          <div className="space-y-4">
-                            <div className="flex justify-between text-xs font-bold border-b border-slate-50 pb-3">
-                              <span className="text-slate-400 uppercase tracking-widest text-[10px]">Pickup Starts</span>
-                              <span className="text-slate-900">{new Date(selectedDrop.pickupStartTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+                          <div className="space-y-10">
+                            <div className="flex justify-between items-center border-b border-emerald-900/5 pb-8">
+                              <span className="text-slate-400 uppercase tracking-[0.4em] text-[11px] font-black">Divine Window</span>
+                              <div className="text-right">
+                                <span className="text-2xl font-black text-emerald-950">{new Date(selectedDrop.pickupStartTime).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+                                <span className="mx-2 text-slate-300">—</span>
+                                <span className="text-2xl font-black text-rose-600">{new Date(selectedDrop.availableUntil).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+                              </div>
                             </div>
-                            <div className="flex justify-between text-xs font-bold border-b border-slate-50 pb-3">
-                              <span className="text-slate-400 uppercase tracking-widest text-[10px]">Deadline</span>
-                              <span className="text-rose-600 font-black">{new Date(selectedDrop.availableUntil).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
-                            </div>
-                            <div className="flex justify-between text-xs font-bold">
-                              <span className="text-slate-400 uppercase tracking-widest text-[10px]">Location</span>
-                              <span className="text-slate-600 text-right max-w-[60%]">{selectedDrop.pickupAddress}</span>
+                            <div className="space-y-4">
+                              <span className="text-slate-400 uppercase tracking-[0.4em] text-[11px] font-black">Sanctuary Address</span>
+                              <p className="text-2xl font-black text-slate-950 leading-tight">{selectedDrop.pickupAddress}</p>
                             </div>
                           </div>
                           <Button 
                             fullWidth 
                             size="lg" 
-                            className="rounded-2xl h-16" 
+                            className="h-28 text-xl rounded-[2.5rem]" 
                             onClick={() => {
                               if (role === 'guest') {
                                 setView('auth');
@@ -205,65 +219,70 @@ const App: React.FC = () => {
                               }
                             }}
                           >
-                            Claim this Blessing
+                            Receive Blessing
                           </Button>
                         </>
                       )}
 
                       {selectedDrop.status === 'available' && isReserving && (
-                        <form onSubmit={finalizeReservation} className="space-y-6">
-                          <p className="text-sm font-medium text-slate-600">Please provide contact details to finalize the reservation.</p>
-                          <div className="space-y-4">
+                        <form onSubmit={finalizeReservation} className="space-y-12 animate-in fade-in zoom-in-95 duration-500">
+                          <p className="text-2xl font-medium text-slate-500 italic leading-snug px-2">"True wealth is sharing what remains." - Provide details to secure this gift.</p>
+                          <div className="space-y-8">
                             <input 
-                              type="text" required placeholder="Full Name" 
+                              type="text" required placeholder="Your Name / Organization" 
                               value={reserveName} onChange={e => setReserveName(e.target.value)}
-                              className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-[#064e3b] font-medium transition-all outline-none text-slate-900" 
+                              className="w-full px-12 py-7 bg-white/60 border-2 border-transparent rounded-[2.5rem] focus:bg-white focus:border-emerald-500/20 focus:ring-8 focus:ring-emerald-900/5 font-black text-slate-950 transition-all outline-none text-xl placeholder:text-slate-300" 
                             />
                             <input 
-                              type="tel" required placeholder="Mobile Number" 
+                              type="tel" required placeholder="Active Phone Number" 
                               value={reservePhone} onChange={e => setReservePhone(e.target.value)}
-                              className="w-full px-6 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-[#064e3b] font-medium transition-all outline-none text-slate-900" 
+                              className="w-full px-12 py-7 bg-white/60 border-2 border-transparent rounded-[2.5rem] focus:bg-white focus:border-emerald-500/20 focus:ring-8 focus:ring-emerald-900/5 font-black text-slate-950 transition-all outline-none text-xl placeholder:text-slate-300" 
                             />
                           </div>
-                          <div className="flex flex-col gap-3">
-                             <Button type="submit" fullWidth className="h-14">Confirm Reservation</Button>
-                             <Button variant="ghost" fullWidth onClick={() => setIsReserving(false)}>Cancel</Button>
+                          <div className="flex flex-col gap-6">
+                             <Button type="submit" fullWidth className="h-24 text-lg">Confirm Receipt</Button>
+                             <Button variant="ghost" fullWidth onClick={() => setIsReserving(false)} className="uppercase tracking-[0.5em] text-[11px] font-black opacity-50">Go Back</Button>
                           </div>
                         </form>
                       )}
 
                       {selectedDrop.status === 'claimed' && (
-                        <div className="space-y-8 text-center">
-                          <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-amber-600">
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                        <div className="space-y-16 text-center animate-in zoom-in-90 duration-700">
+                          <div className="w-40 h-40 bg-emerald-950 text-amber-400 rounded-full flex items-center justify-center mx-auto shadow-2xl relative ring-[12px] ring-emerald-900/5">
+                            <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7" /></svg>
+                            <div className="absolute inset-0 rounded-full animate-ping bg-emerald-900 opacity-20"></div>
                           </div>
-                          <div>
-                            <h4 className="serif text-3xl text-slate-900 mb-1">Blessing Secured</h4>
-                            <p className="text-[10px] font-black text-amber-600 uppercase tracking-[0.2em]">Code: BRKT-{Math.floor(Math.random()*9000)+1000}</p>
+                          <div className="space-y-4">
+                            <h4 className="serif text-6xl text-slate-950 leading-none">Alhamdulillah.</h4>
+                            <p className="text-lg font-medium text-slate-400">Blessing secured successfully.</p>
+                          </div>
+                          
+                          <div className="inline-block px-12 py-5 bg-amber-50 rounded-[2.5rem] border border-amber-200/50 shadow-inner">
+                            <span className="text-xl font-black text-amber-700 uppercase tracking-[0.5em]">Code: BRKT-{Math.floor(Math.random()*9000)+1000}</span>
                           </div>
 
-                          <div className="text-left space-y-4">
-                            <div className="p-6 bg-[#fdfcf9] rounded-2xl border border-slate-100">
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Donor Direct Contact</p>
+                          <div className="text-left space-y-8">
+                            <div className="p-10 bg-white/60 rounded-[3rem] border border-emerald-900/5 shadow-sm">
+                              <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4">Direct Link</p>
                               <div className="flex justify-between items-center">
-                                <span className="text-sm font-bold text-slate-900">{selectedDrop.donorName}</span>
-                                <a href={`tel:${selectedDrop.donorPhone}`} className="text-[#064e3b] font-black text-sm">{selectedDrop.donorPhone}</a>
+                                <span className="text-2xl font-black text-slate-900">{selectedDrop.donorName}</span>
+                                <a href={`tel:${selectedDrop.donorPhone}`} className="px-6 py-2.5 rounded-full bg-emerald-900 text-amber-400 text-sm font-black shadow-lg">{selectedDrop.donorPhone}</a>
                               </div>
                             </div>
-                            <div className="p-6 bg-[#fdfcf9] rounded-2xl border border-slate-100">
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Pickup Address</p>
-                              <p className="text-sm font-bold text-slate-900 leading-relaxed">{selectedDrop.pickupAddress}, {selectedDrop.city}</p>
-                            </div>
                           </div>
-                          <Button variant="outline" fullWidth onClick={() => setSelectedDrop(null)}>Back to Map</Button>
+                          <Button variant="outline" fullWidth onClick={() => setSelectedDrop(null)} className="h-20 rounded-full text-sm border-2">Return Home</Button>
                         </div>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="p-16 rounded-[2.5rem] border-2 border-dashed border-slate-200 text-center bg-slate-50/50">
-                    <p className="serif text-3xl text-slate-400 mb-2">Select a Drop</p>
-                    <p className="text-slate-400 font-medium text-sm">Review details and secure your meal from the map or list.</p>
+                  <div className="p-32 rounded-[6rem] border-4 border-dashed border-emerald-900/10 text-center bg-white/10 relative group overflow-hidden animate-in fade-in duration-1500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-500/[0.03] transition-colors"></div>
+                    <div className="w-32 h-32 text-amber-300 mx-auto mb-12 opacity-40 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-[360deg] transition-all duration-1000">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l-2 2h4l-2-2zm0 3c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-8h-2v4h2v-4z"/></svg>
+                    </div>
+                    <p className="serif text-6xl text-slate-200 mb-8 transition-colors duration-700 group-hover:text-emerald-900/30">Awaiting Ritual</p>
+                    <p className="text-slate-400 font-semibold text-xl leading-relaxed max-w-xs mx-auto">Select a gift on the map to begin the ceremony of stewardship.</p>
                   </div>
                 )}
               </div>
@@ -272,7 +291,7 @@ const App: React.FC = () => {
         )}
 
         {view === 'donor-dashboard' && (
-          <div className="py-8">
+          <div className="py-8 animate-in fade-in slide-in-from-bottom-12 duration-1000">
             <DonorDashboard 
               onAddDrop={handleAddDrop} 
               myDrops={drops.filter(d => d.donorId === userEmail || d.donorId === 'current-user')} 
@@ -281,20 +300,30 @@ const App: React.FC = () => {
         )}
 
         {view === 'sms' && (
-          <div className="max-w-4xl mx-auto">
-            <header className="text-center mb-16">
-               <h2 className="serif text-6xl text-slate-900 mb-4">SMS Micro-Logistics</h2>
-               <p className="text-slate-500 font-medium text-lg">Access blessings without an internet connection.</p>
+          <div className="max-w-4xl mx-auto py-32 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+            <header className="text-center mb-40 relative">
+               <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-32 h-32 opacity-10 text-emerald-900"><svg viewBox="0 0 100 100"><path fill="currentColor" d="M50 0L100 50L50 100L0 50Z"/></svg></div>
+               <h2 className="serif text-[10rem] text-slate-950 mb-12 tracking-tighter">Silent Support.</h2>
+               <p className="text-3xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed italic">"For those whose connection is thin, but whose need is heavy. We reach across the void."</p>
             </header>
             <SMSView drops={drops.filter(d => d.status === 'available')} />
           </div>
         )}
       </main>
 
-      <footer className="py-24 border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="serif text-3xl text-[#064e3b] mb-4">Barakat Meal Canada</p>
-          <p className="text-slate-400 font-black text-[10px] uppercase tracking-[0.3em]">Built for Social Impact • 2025</p>
+      <footer className="py-64 mt-64 border-t border-emerald-900/5 bg-white/40 celestial-glass relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-amber-500/20 to-transparent"></div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+          <div className="mx-auto mb-20">
+            <Logo size="lg" className="justify-center" />
+          </div>
+          <p className="text-amber-600 font-black text-[12px] uppercase tracking-[0.8em] mb-32">Canada • Sharing the Abundance • 2025</p>
+          
+          <div className="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-20 opacity-40 text-[11px] font-black uppercase tracking-[0.5em] text-slate-400">
+            <span className="hover:text-emerald-900 cursor-default transition-colors">Privacy as Proxy</span>
+            <span className="hover:text-emerald-900 cursor-default transition-colors">Digital Sadaqah</span>
+            <span className="hover:text-emerald-900 cursor-default transition-colors">Open Abundance</span>
+          </div>
         </div>
       </footer>
     </div>
