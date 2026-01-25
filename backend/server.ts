@@ -1,5 +1,5 @@
 
-import { FoodDrop, UserRole } from './types';
+import { FoodDrop } from './types';
 import { analyzeFoodDescription } from '../services/geminiService';
 
 // Mock Database Initial State
@@ -44,21 +44,17 @@ const INITIAL_DROPS: FoodDrop[] = [
   }
 ];
 
-// Local state for the "Backend" session
 let dbDrops: FoodDrop[] = [...INITIAL_DROPS];
 
 /**
- * Backend API Interface
+ * BarakahLink Backend API
  */
-export const BarakatBackend = {
-  // GET /api/drops
+export const BarakahBackend = {
   async getDrops(): Promise<FoodDrop[]> {
-    // Simulate network delay
     await new Promise(r => setTimeout(r, 300));
     return [...dbDrops];
   },
 
-  // POST /api/drops
   async createDrop(dropData: Partial<FoodDrop>, donorId: string, donorName: string): Promise<FoodDrop> {
     const analysis = await analyzeFoodDescription(dropData.description || '');
     
@@ -90,7 +86,6 @@ export const BarakatBackend = {
     return newDrop;
   },
 
-  // POST /api/reservations
   async reserveDrop(dropId: string, name: string, phone: string): Promise<FoodDrop> {
     const dropIndex = dbDrops.findIndex(d => d.id === dropId);
     if (dropIndex === -1) throw new Error("Drop not found.");
@@ -105,7 +100,6 @@ export const BarakatBackend = {
     return dbDrops[dropIndex];
   },
 
-  // GET /api/user/role (Simulated Auth)
   async login(email: string): Promise<{ email: string; name: string }> {
     return {
       email,
