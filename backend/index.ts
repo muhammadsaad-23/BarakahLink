@@ -1,3 +1,3 @@
 
-export * from './types.ts';
-export * from './server.ts';
+export * from './types';
+export * from './server';

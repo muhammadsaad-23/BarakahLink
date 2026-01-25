@@ -1,8 +1,7 @@
 
-import { FoodDrop } from './types.ts';
-import { analyzeFoodDescription } from '../services/geminiService.ts';
+import { FoodDrop } from './types';
+import { analyzeFoodDescription } from '../services/geminiService';
 
-// Mock Database Initial State
 const INITIAL_DROPS: FoodDrop[] = [
   {
     id: '1',

@@ -1,8 +1,8 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { BarakahBackend } from './backend/index.ts';
-import type { FoodDrop, UserRole } from './backend/types.ts';
-import { AppView } from './frontend/index.tsx';
+import { BarakahBackend } from './backend';
+import type { FoodDrop, UserRole } from './backend/types';
+import { AppView } from './frontend';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole>('guest');
