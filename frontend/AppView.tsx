@@ -42,6 +42,60 @@ export const AppView: React.FC<AppViewProps> = (props) => {
     reserveName, setReserveName, reservePhone, setReservePhone, onAddDrop, onLogin, onReserve
   } = props;
 
+  const renderVisionSection = () => (
+    <div className="mt-40 space-y-40 animate-in fade-in slide-in-from-bottom-20 duration-1000">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="celestial-glass p-10 rounded-[3rem] border border-white/5 space-y-6 group hover:border-amber-500/30 transition-all">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-amber-400">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          </div>
+          <h3 className="serif text-4xl text-white">AI Dignity</h3>
+          <p className="text-slate-400 font-medium leading-relaxed">
+            Powered by Gemini, we transform surplus descriptions into dignified summaries, ensuring every community member feels respected.
+          </p>
+        </div>
+        <div className="celestial-glass p-10 rounded-[3rem] border border-white/5 space-y-6 group hover:border-amber-500/30 transition-all">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-amber-400">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+          </div>
+          <h3 className="serif text-4xl text-white">SMS Bridge</h3>
+          <p className="text-slate-400 font-medium leading-relaxed">
+            Inclusivity is core. Our SMS gateway simulation ensures those without data plans have equal access to real-time support.
+          </p>
+        </div>
+        <div className="celestial-glass p-10 rounded-[3rem] border border-white/5 space-y-6 group hover:border-amber-500/30 transition-all">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-amber-400">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /></svg>
+          </div>
+          <h3 className="serif text-4xl text-white">Hyper-Local</h3>
+          <p className="text-slate-400 font-medium leading-relaxed">
+            Focused exclusively on the Kitchener-Waterloo region, optimizing logistics for our specific community routes and neighborhoods.
+          </p>
+        </div>
+      </div>
+
+      <div className="relative rounded-[4rem] overflow-hidden celestial-glass p-20 border border-white/5 text-center">
+        <div className="absolute top-0 right-0 p-10 opacity-5">
+           <Logo size="xl" showText={false} />
+        </div>
+        <h2 className="serif text-6xl md:text-8xl text-white mb-8 tracking-tighter">Our Impact Vision</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { label: 'Food Waste', val: '-40%' },
+            { label: 'Families Served', val: '500+' },
+            { label: 'Dignity Score', val: '100%' },
+            { label: 'KW Response', val: '< 2hrs' },
+          ].map(stat => (
+            <div key={stat.label} className="p-8 rounded-3xl bg-white/5 border border-white/5">
+              <div className="text-4xl font-black text-amber-400 mb-2">{stat.val}</div>
+              <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   const renderHero = () => (
     <div className="relative max-w-7xl mx-auto pt-40 pb-72 px-6">
       <div className="flex flex-col items-center text-center">
@@ -66,6 +120,8 @@ export const AppView: React.FC<AppViewProps> = (props) => {
             SMS Access
           </Button>
         </div>
+
+        {renderVisionSection()}
       </div>
     </div>
   );
