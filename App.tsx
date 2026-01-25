@@ -1,7 +1,8 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { BarakahBackend, FoodDrop, UserRole } from './backend';
-import { AppView } from './frontend';
+import { BarakahBackend } from './backend/index.ts';
+import type { FoodDrop, UserRole } from './backend/types.ts';
+import { AppView } from './frontend/index.tsx';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole>('guest');
@@ -16,7 +17,9 @@ const App: React.FC = () => {
   const [reservePhone, setReservePhone] = useState('');
 
   useEffect(() => {
-    BarakahBackend.getDrops().then(setDrops);
+    BarakahBackend.getDrops()
+      .then(setDrops)
+      .catch(err => console.error("Initial load failed:", err));
   }, []);
 
   const filteredDrops = useMemo(() => {
