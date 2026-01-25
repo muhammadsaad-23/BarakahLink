@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import { Button } from './Button';
-import { analyzeFoodDescription } from '../services/geminiService';
-import { FoodDrop } from '../types';
-import { DIETARY_TAGS, CANADIAN_CITIES } from '../constants';
+import { Button } from './Button.tsx';
+import { analyzeFoodDescription } from '../services/geminiService.ts';
+import { FoodDrop } from '../backend/types.ts';
+import { DIETARY_TAGS, CANADIAN_CITIES } from '../constants.ts';
 
 interface DonorDashboardProps {
   onAddDrop: (drop: Partial<FoodDrop>) => void;

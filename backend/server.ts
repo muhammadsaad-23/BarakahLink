@@ -1,6 +1,6 @@
 
-import { FoodDrop } from './types';
-import { analyzeFoodDescription } from '../services/geminiService';
+import { FoodDrop } from './types.ts';
+import { analyzeFoodDescription } from '../services/geminiService.ts';
 
 // Mock Database Initial State
 const INITIAL_DROPS: FoodDrop[] = [
@@ -46,9 +46,6 @@ const INITIAL_DROPS: FoodDrop[] = [
 
 let dbDrops: FoodDrop[] = [...INITIAL_DROPS];
 
-/**
- * BarakahLink Backend API
- */
 export const BarakahBackend = {
   async getDrops(): Promise<FoodDrop[]> {
     await new Promise(r => setTimeout(r, 300));

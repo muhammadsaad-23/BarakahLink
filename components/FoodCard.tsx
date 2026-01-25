@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FoodDrop } from '../types';
+import { FoodDrop } from '../backend/types.ts';
 
 interface FoodCardProps {
   drop: FoodDrop;
@@ -23,13 +23,8 @@ export const FoodCard: React.FC<FoodCardProps> = ({ drop, onClick }) => {
       onClick={() => onClick(drop)}
       className="group relative cursor-pointer fade-up"
     >
-      {/* Main Card Container */}
       <div className={`relative overflow-hidden rounded-[3rem] border border-white/5 transition-all duration-700 celestial-glass p-8 md:p-10 hover:border-amber-400/40 hover:-translate-y-4 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)] ${drop.status === 'claimed' ? 'opacity-60 saturate-[0.2]' : ''}`}>
-        
-        {/* Internal Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        
-        {/* Mashrabiya Corner Motif */}
         <div className="absolute top-0 right-0 w-32 h-32 opacity-10 text-amber-400 transform translate-x-12 -translate-y-12 transition-transform group-hover:translate-x-6 group-hover:-translate-y-6">
           <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 0L55 45L100 50L55 55L50 100L45 55L0 50L45 45Z"/></svg>
         </div>
@@ -42,14 +37,12 @@ export const FoodCard: React.FC<FoodCardProps> = ({ drop, onClick }) => {
             </div>
             <h3 className="serif text-4xl md:text-5xl text-white tracking-tight leading-[0.9] text-glow-gold">{drop.title}</h3>
           </div>
-          
           <div className={`px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-widest border border-white/10 ${isAvailable ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400'}`}>
             {drop.status === 'claimed' ? 'Claimed' : isAvailable ? 'Available' : 'Expired'}
           </div>
         </div>
 
         <div className="space-y-8 relative z-10">
-          {/* Progress Indicator (Vitality) */}
           <div className="space-y-3">
             <div className="flex justify-between text-[10px] font-black text-amber-200/50 uppercase tracking-[0.3em]">
               <span>Pickup Window</span>
@@ -78,7 +71,6 @@ export const FoodCard: React.FC<FoodCardProps> = ({ drop, onClick }) => {
               <span className="text-[8px] uppercase font-black text-amber-500/60 mb-1 tracking-widest">Quantity</span>
               <span className="text-xl font-black text-white">{drop.quantity.split(' ')[0]}</span>
             </div>
-            
             <div className="flex space-x-2">
               {drop.tags.slice(0, 2).map(tag => (
                 <span key={tag} className="px-5 py-2 bg-white/5 rounded-xl border border-white/10 text-[9px] font-black uppercase tracking-widest text-slate-400">

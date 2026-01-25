@@ -1,15 +1,15 @@
 
 import React from 'react';
-import { UserRole, FoodDrop } from '../backend/types';
-import { DIETARY_TAGS, CANADIAN_CITIES } from '../constants';
-import { Navbar } from '../components/Navbar';
-import { MapView } from '../components/MapView';
-import { FoodCard } from '../components/FoodCard';
-import { DonorDashboard } from '../components/DonorDashboard';
-import { SMSView } from '../components/SMSView';
-import { Button } from '../components/Button';
-import { AuthView } from '../components/AuthView';
-import { Logo } from '../components/Logo';
+import { UserRole, FoodDrop } from '../backend/types.ts';
+import { DIETARY_TAGS, CANADIAN_CITIES } from '../constants.ts';
+import { Navbar } from '../components/Navbar.tsx';
+import { MapView } from '../components/MapView.tsx';
+import { FoodCard } from '../components/FoodCard.tsx';
+import { DonorDashboard } from '../components/DonorDashboard.tsx';
+import { SMSView } from '../components/SMSView.tsx';
+import { Button } from '../components/Button.tsx';
+import { AuthView } from '../components/AuthView.tsx';
+import { Logo } from '../components/Logo.tsx';
 
 interface AppViewProps {
   role: UserRole;
