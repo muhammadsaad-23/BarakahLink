@@ -90,7 +90,7 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Text Message"
-              className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none placeholder:text-slate-300 font-medium"
+              className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none placeholder:text-slate-300 font-medium text-slate-900"
             />
             <button 
               onClick={handleSend}
