@@ -8,9 +8,10 @@ interface NavbarProps {
   onRoleChange: (role: UserRole) => void;
   onNavigate: (view: string) => void;
   currentView: string;
+  onLogout?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ role, onRoleChange, onNavigate, currentView }) => {
+export const Navbar: React.FC<NavbarProps> = ({ role, onRoleChange, onNavigate, currentView, onLogout }) => {
   return (
     <div className="fixed top-12 left-0 right-0 z-[100] px-8 pointer-events-none">
       <nav className="max-w-7xl mx-auto celestial-glass rounded-[3rem] border border-white/10 pointer-events-auto h-24 md:h-28 flex items-center justify-between px-10 md:px-16 shadow-[0_30px_100px_-15px_rgba(0,0,0,0.6)]">
@@ -58,10 +59,14 @@ export const Navbar: React.FC<NavbarProps> = ({ role, onRoleChange, onNavigate, 
               <span className="relative z-10">Get Started</span>
             </button>
           ) : (
-            <button 
+            <button
               onClick={() => {
-                onRoleChange('guest');
-                onNavigate('landing');
+                if (onLogout) {
+                  onLogout();
+                } else {
+                  onRoleChange('guest');
+                  onNavigate('landing');
+                }
               }}
               className="px-8 py-3 rounded-2xl border border-rose-500/20 text-rose-500 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-rose-500/10 transition-colors"
             >

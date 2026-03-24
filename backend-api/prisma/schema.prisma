@@ -1,0 +1,83 @@
+// This is your Prisma schema file.
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  role         Role       @default(RECIPIENT)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  drops        FoodDrop[]
+}
+
+enum Role {
+  DONOR
+  RECIPIENT
+  ADMIN
+}
+
+// ─── Food Drops ───────────────────────────────────────────────────────────────
+
+model FoodDrop {
+  id              String       @id @default(cuid())
+  donorId         String
+  donor           User         @relation(fields: [donorId], references: [id], onDelete: Cascade)
+  donorName       String
+  donorPhone      String
+  title           String
+  description     String
+  quantity        String
+  pickupAddress   String
+  city            String
+  lat             Float
+  lng             Float
+  pickupStartTime DateTime
+  availableUntil  DateTime
+  tags            String[]
+  status          DropStatus   @default(AVAILABLE)
+  aiSummary       String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  reservation     Reservation?
+}
+
+enum DropStatus {
+  AVAILABLE
+  CLAIMED
+  EXPIRED
+}
+
+// ─── Reservations ─────────────────────────────────────────────────────────────
+
+model Reservation {
+  id        String   @id @default(cuid())
+  dropId    String   @unique
+  drop      FoodDrop @relation(fields: [dropId], references: [id], onDelete: Cascade)
+  userId    String?  // null = guest reservation
+  name      String
+  phone     String
+  createdAt DateTime @default(now())
+}
+
+// ─── SMS Logs ─────────────────────────────────────────────────────────────────
+
+model SmsLog {
+  id        String   @id @default(cuid())
+  fromPhone String
+  body      String
+  reply     String?
+  createdAt DateTime @default(now())
+}

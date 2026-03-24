@@ -48,9 +48,24 @@ export const SMSView: React.FC<SMSViewProps> = ({ drops }) => {
 
       if (cmd.includes('FOOD') || cmd.length >= 3) {
         if (availableDrops.length > 0) {
-          reply = `Found it! We have ${availableDrops.length} food listings near you right now.\n\nTo view exact addresses and get your pickup code, visit this link:\n\nhttps://barakahlink.app/map?ref=sms`;
+          reply = `🍽️ Found ${availableDrops.length} food listing${availableDrops.length > 1 ? 's' : ''} available:\n\n`;
+          
+          availableDrops.forEach((drop, index) => {
+            reply += `${index + 1}. ${drop.title}\n`;
+            reply += `📍 ${drop.pickupAddress}, ${drop.city}\n`;
+            reply += `📦 ${drop.quantity}\n`;
+            if (drop.tags.length > 0) {
+              reply += `🏷️ ${drop.tags.join(', ')}\n`;
+            }
+            if (drop.aiSummary) {
+              reply += `ℹ️ ${drop.aiSummary}\n`;
+            }
+            reply += `\n`;
+          });
+          
+          reply += `\nTo reserve, visit: barakahlink.app/map`;
         } else {
-          reply = `No active food listings were found in your area right now. \n\nWe will notify you if a new donation becomes available nearby.`;
+          reply = `No active food listings were found in your area right now.\n\nWe will notify you if a new donation becomes available nearby.`;
         }
       } else {
         reply = 'Unknown command. Text "FOOD" to see what is available.';

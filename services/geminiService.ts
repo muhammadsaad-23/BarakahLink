@@ -1,8 +1,18 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-// Always use the API_KEY from process.env directly per guidelines
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Get API key from environment variable (set in vite.config.ts)
+const apiKey = import.meta.env.GEMINI_API_KEY || import.meta.env.API_KEY;
+
+// Initialize AI only if API key is available
+let ai: GoogleGenAI | null = null;
+if (apiKey) {
+  try {
+    ai = new GoogleGenAI({ apiKey });
+  } catch (error) {
+    console.warn("Failed to initialize Gemini AI:", error);
+  }
+}
 
 export interface AnalysisResult {
   tags: string[];
@@ -10,38 +20,44 @@ export interface AnalysisResult {
   isAppropriate: boolean;
 }
 
+// Fallback function for when API is not available
+function fallbackAnalysis(description: string): AnalysisResult {
+  const lowerDesc = description.toLowerCase();
+  const tags: string[] = [];
+  if (lowerDesc.includes('halal')) tags.push('Halal');
+  if (lowerDesc.includes('vegan')) tags.push('Vegan');
+  if (lowerDesc.includes('vegetarian')) tags.push('Vegetarian');
+  if (lowerDesc.includes('gluten')) tags.push('Gluten-Free');
+  if (lowerDesc.includes('dairy')) tags.push('Dairy-Free');
+  if (lowerDesc.includes('nut')) tags.push('Nut-Free');
+  if (lowerDesc.includes('kosher')) tags.push('Kosher');
+  
+  return {
+    tags: tags.length > 0 ? tags : ['General'],
+    summary: description.length > 100 ? description.substring(0, 100) + '...' : description,
+    isAppropriate: true
+  };
+}
+
 export async function analyzeFoodDescription(description: string): Promise<AnalysisResult> {
+  // If no API key, return default values
+  if (!ai || !apiKey) {
+    console.warn("Gemini API key not configured. Using fallback analysis.");
+    return fallbackAnalysis(description);
+  }
+
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: 'gemini-1.5-flash',
       contents: `Analyze this food donation description: "${description}". 
-      Identify dietary tags (Halal, Vegan, Vegetarian, etc.) and create a one-sentence dignified summary for people in need. 
-      Also check if the content is appropriate for a food support app.`,
+      Identify dietary tags (Halal, Vegan, Vegetarian, Gluten-Free, Dairy-Free, Nut-Free, Kosher, etc.) and create a one-sentence dignified summary for people in need. 
+      Also check if the content is appropriate for a food support app.
+      Respond in JSON format: {"tags": ["tag1", "tag2"], "summary": "summary text", "isAppropriate": true/false}`,
       config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            tags: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: "Dietary and food type tags"
-            },
-            summary: {
-              type: Type.STRING,
-              description: "Dignified summary of the food"
-            },
-            isAppropriate: {
-              type: Type.BOOLEAN,
-              description: "Whether the description is safe and relevant"
-            }
-          },
-          required: ["tags", "summary", "isAppropriate"]
-        }
+        responseMimeType: "application/json"
       }
     });
 
-    // Directly access response.text property per guidelines (not a method call)
     const jsonStr = response.text?.trim() || '{}';
     const result = JSON.parse(jsonStr);
     
@@ -52,10 +68,7 @@ export async function analyzeFoodDescription(description: string): Promise<Analy
     };
   } catch (error) {
     console.error("Gemini Analysis Error:", error);
-    return {
-      tags: [],
-      summary: "Donation description processing failed.",
-      isAppropriate: true
-    };
+    // Fallback to simple analysis
+    return fallbackAnalysis(description);
   }
 }

@@ -32,17 +32,20 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', className = '', showTex
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,191,36,0.15),transparent)] animate-[spin_10s_linear_infinite]"></div>
           
           <svg viewBox="0 0 100 100" className="w-[80%] h-[80%] text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]">
+            <defs>
+              <mask id="crescent-mask">
+                <rect width="100" height="100" fill="white"/>
+                <circle cx="42" cy="50" r="12" fill="black"/>
+              </mask>
+            </defs>
             {/* The 8-pointed Khatam Star */}
             <path 
               fill="currentColor" 
               d="M50 0L61 39H100L69 61L81 100L50 78L19 100L31 61L0 39H39L50 0Z" 
               className="opacity-40 group-hover:opacity-100 transition-opacity"
             />
-            {/* The Spiritual Crescent */}
-            <path 
-              fill="white" 
-              d="M75,50 c0,13.8 -11.2,25 -25,25 s-25-11.2 -25-25 s11.2-25,25-25 c4.2,0,8.1,1,11.6,2.8 c-8.5,2.5-14.6,10.4-14.6,19.7 c0,11.3,9.2,20.5,20.5,20.5 c3.7,0,7.1-1,10.1-2.7 C72.5,43.3,75,46.4,75,50z" 
-            />
+            {/* The Spiritual Crescent - properly aligned using mask */}
+            <circle cx="50" cy="50" r="15" fill="white" mask="url(#crescent-mask)"/>
           </svg>
         </div>
       </div>

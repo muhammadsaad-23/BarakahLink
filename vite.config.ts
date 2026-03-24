@@ -1,10 +1,23 @@
-
+import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  define: {
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
-  }
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    proxy: {
+      // In dev, proxy /api requests to the Express backend
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '.'),
+    },
+  },
 });
